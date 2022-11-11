@@ -1,68 +1,75 @@
-import {
-    AppstoreOutlined,
-    ContainerOutlined,
-    DesktopOutlined,
-    MailOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    PieChartOutlined,
-  } from '@ant-design/icons';
-  import { Button, Menu } from 'antd';
-  import React, { useState } from 'react';
-  function getItem(label, key, icon, children, type) {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    };
-  }
-  const items = [
-    getItem('Option 1', '1', <PieChartOutlined />),
-    getItem('Option 2', '2', <DesktopOutlined />),
-    getItem('Option 3', '3', <ContainerOutlined />),
-    getItem('Navigation One', 'sub1', <MailOutlined />, [
-      getItem('Option 5', '5'),
-      getItem('Option 6', '6'),
-      getItem('Option 7', '7'),
-      getItem('Option 8', '8'),
-    ]),
-    getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
-      getItem('Option 9', '9'),
-      getItem('Option 10', '10'),
-      getItem('Submenu', 'sub3', null, [getItem('Option 11', '11'), getItem('Option 12', '12')]),
-    ]),
-  ];
-  const MainLayout = () => {
-    const [collapsed, setCollapsed] = useState(false);
-    const toggleCollapsed = () => {
-      setCollapsed(!collapsed);
-    };
-    return (
-      <div
-        style={{
-          width: 256,
-        }}
-      >
-        <Button
-          type="primary"
-          onClick={toggleCollapsed}
-          style={{
-            marginBottom: 16,
-          }}
-        >
-          {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        </Button>
+import { GroupOutlined, FileTextOutlined, RiseOutlined, CreditCardOutlined, CarOutlined, SettingOutlined, AppstoreOutlined, LineOutlined } from '@ant-design/icons';
+import { Breadcrumb, Layout, Menu } from 'antd';
+import MenuItem from './MenuItem'
+import './mainLayout.scss'
+import React from 'react';
+const { Header, Content, Sider } = Layout;
+function getItem(label, key, icon, children, type) {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  };
+}
+
+const items1 = [
+  getItem('Kanban Board', '1', <CreditCardOutlined />),
+  getItem('Project settings', '2', <SettingOutlined />),
+  getItem('Releases', '3', <CarOutlined />),
+  getItem('', '', <LineOutlined />),
+  getItem('Issues and filters', '4', <GroupOutlined />),
+  getItem('Pages', '5', <FileTextOutlined />),
+  getItem('Reports', '6', <RiseOutlined />),
+  getItem('Components', '7', <AppstoreOutlined />)
+];
+
+const App = () => (
+  <Layout>
+    <Layout>
+      <MenuItem />
+      <Sider width={200} className="site-layout-background">
         <Menu
+          mode="inline"
           defaultSelectedKeys={['1']}
           defaultOpenKeys={['sub1']}
-          mode="inline"
-          theme="dark"
-          inlineCollapsed={collapsed}
-          items={items}
+          style={{
+            height: '100vh',
+            position: "relative",
+            marginLeft: 80,
+            borderRight: 0,
+          }}
+          items={items1}
         />
-      </div>
-    );
-  };
-  export default MainLayout;
+      </Sider>
+      <Layout
+        style={{
+          padding: '0 24px 24px',
+          marginLeft: 80
+        }}
+      >
+        <Breadcrumb
+          style={{
+            margin: '16px 0',
+          }}
+        >
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>App</Breadcrumb.Item>
+        </Breadcrumb>
+        <Content
+          className="site-layout-background"
+          style={{
+            padding: 24,
+            margin: 0,
+            minHeight: 280,
+          }}
+        >
+          Content
+        </Content>
+      </Layout>
+    </Layout>
+  </Layout>
+);
+export default App;
